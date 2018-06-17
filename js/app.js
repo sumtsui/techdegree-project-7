@@ -12,7 +12,8 @@ const T = new Twit({
 });
 
 T.get('followers/ids', { screen_name: 'sumtsui' }, function (err, data, response) {
-    console.log(data);
+    if (err) console.log('fucking error!!', err);
+    else console.log('my followers: ', data);
 });
 
 
