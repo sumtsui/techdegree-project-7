@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/sumtsui/techdegree-project-7/issues"
   },
-  "homepage": "https://github.com/sumtsui/techdegree-project-7#readme"
+  "homepage": "https://github.com/sumtsui/techdegree-project-7#readme",
+  "dependencies": {
+    "twit": "^2.2.10"
+  }
 }
