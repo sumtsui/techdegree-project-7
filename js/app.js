@@ -11,7 +11,7 @@ const T = new Twit({
     strictSSL: true,     // optional - requires SSL certificates to be valid.
 });
 
-T.get('followers/ids', { screen_name: 'tolga_tezel' }, function (err, data, response) {
+T.get('followers/ids', { screen_name: 'sumtsui' }, function (err, data, response) {
     console.log(data);
 });
 
