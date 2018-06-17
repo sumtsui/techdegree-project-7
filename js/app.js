@@ -16,6 +16,8 @@
 //     if (err) console.log(err);
 // });
 
+console.log('at least sth works');
+
 var request = require('request');
 var proxiedRequest = request.defaults({proxy: "http://b5.1tizi.me:10186"});
 
