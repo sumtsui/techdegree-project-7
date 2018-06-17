@@ -1,49 +1,19 @@
 // const twit = require('./config');
 
-// const Twit = require('twit');
+const Twit = require('twit');
 
-// const T = new Twit({
-//     consumer_key: 'Skq8tVao6Z9qaT51a4oANRXZ3',
-//     consumer_secret:      'c0PPSk8AIC5JSALDli8jnSTVwCgl3OMgkDnmXQ4Z0AGOFZj0qY',
-//     access_token:         '244203632-5s6IUbVwSJjnA81I8UxM1U1s84fz2OWV8ube0pZB',
-//     access_token_secret:  'uX4U3VDv9xgibbUH6111QQ8m1IEyEajOXHh1BfxfZhrvq',
-//     timeout_ms: 120*1000,  // optional HTTP request timeout to apply to all requests.
-//     strictSSL: true,     // optional - requires SSL certificates to be valid.
-// });
+const T = new Twit({
+    consumer_key: 'Skq8tVao6Z9qaT51a4oANRXZ3',
+    consumer_secret:      'c0PPSk8AIC5JSALDli8jnSTVwCgl3OMgkDnmXQ4Z0AGOFZj0qY',
+    access_token:         '244203632-5s6IUbVwSJjnA81I8UxM1U1s84fz2OWV8ube0pZB',
+    access_token_secret:  'uX4U3VDv9xgibbUH6111QQ8m1IEyEajOXHh1BfxfZhrvq',
+    timeout_ms: 120*1000,  // optional HTTP request timeout to apply to all requests.
+    strictSSL: true,     // optional - requires SSL certificates to be valid.
+});
 
-// T.get('https://api.twitter.com/1.1/users/show', 'sumtsui', (err, data, res) => {
-//     console.log(data);
-//     if (err) console.log(err);
-// });
+T.get('followers/ids', { screen_name: 'sumtsui' },  function (err, data, response) {
+    if (err) console.log(err);
+    console.log(data);
+})
 
-console.log('at least sth works');
 
-var request = require('request');
-var proxiedRequest = request.defaults({proxy: "http://b5.1tizi.me:10186"});
-
- var propertiesObject = { 'qs1':'qs1', 'qs2':'qs2'};
-
-proxiedRequest({
-url:'http://www.google.com',
-qs: propertiesObject,
-method: 'GET'   
-}, function (error, response, body){
-        if(error){
-            console.log(error);
-        }
-        else{
-            console.log(response);
-        }
-    });
-
-// var request = require('request');
-// request.get("http://www.google.com",
-//         function (error, response, body){
-
-//         if(error){
-//             console.log(error);
-//         }
-//         else{
-//             console.log(response);
-//         }
-//     });
