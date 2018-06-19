@@ -1,0 +1,18 @@
+li
+  h3
+    | Conversation with 
+    a Jill Spore
+  each msgEvent in msgEvents
+    ul.app--message--conversation
+      if msgEvent.message_create.sender_id === account.id_str
+        li.app--message--me
+          .app--avatar(style=`background-image: url(${msgEvent.sender[0].profile_image_url})`)
+            img(src='/static/images/f-spore.png')
+          p.app--message--text #{msgEvent.message_create.message_data.text}
+          p.app--message--timestamp #{msgEvent.created_timestamp}
+      else
+        li.app--message
+          .app--avatar(style=`background-image: url(${msgEvent.sender[0].profile_image_url})`)
+            img(src='/static/images/f-spore.png')
+          p.app--message--text #{msgEvent.message_create.message_data.text}
+          p.app--message--timestamp #{msgEvent.created_timestamp}
