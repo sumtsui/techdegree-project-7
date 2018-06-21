@@ -9,4 +9,5 @@ To test the app:
         access_token: '',
         access_token_secret: ''
       };
-      ``` 
+      ```
+  - In the root directory, $ npm start

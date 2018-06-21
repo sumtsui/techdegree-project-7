@@ -12,4 +12,3 @@ app.use(mainRoute);
 app.listen(3000, () => {
     console.log('Application running on localhost:3000');
 });
-
