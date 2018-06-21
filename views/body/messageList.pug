@@ -2,7 +2,7 @@ ul.app--message--list
   li
     h3
       | Conversation with 
-      a #{chatWith.name}
+      a #{chatBud.name}
     each msg in messages
       ul.app--message--conversation
         if msg.message_create.sender_id === account.id_str
