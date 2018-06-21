@@ -38,16 +38,10 @@ async function getProfile(msg) {
   return T.get('users/lookup', { user_id: msg.message_create.sender_id });
 }
 
+// need refactor, not efficient to 'get' again
 router.post('/', (req, res) => {
-  T.post('statuses/update', { status: req.body.tweet }, function(err, data) {
-    T.get('statuses/user_timeline', { screen_name: 'sumtsui' }, function (err, data) {
-      if (err) console.log('fucking error!!', err);
-      else {
-        tweets = data;
-        res.redirect('/');
-      }
-    });
-  });
+  T.post('statuses/update', { status: req.body.tweet })
+    .then(res.redirect('/'));
 });
 
 module.exports = router;
