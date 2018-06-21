@@ -9,4 +9,14 @@ html(lang='en')
     body
         include header.pug
         include tweet.pug
-        include body.pug
+        .bounds.app--body
+          include body/subHeader.pug
+          .grid-33
+              .app--section
+                  include body/tweetList.pug
+          .grid-33
+              .app--section
+                  include body/userList.pug
+          .grid-33
+              .app--section
+                  include body/messageList.pug
