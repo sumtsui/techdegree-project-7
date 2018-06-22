@@ -1,19 +1,22 @@
 ul.app--message--list
   li
     h3
-      | Conversation with 
-      a #{chatBud.name}
+      if chatBud.name
+        | Conversation with 
+        a #{chatBud.name}
+      else
+        | No conversation yet
     each msg in messages
       ul.app--message--conversation
         if msg.message_create.sender_id === account.id_str
           li.app--message--me
-            .app--avatar(style=`background-image: url(${msg.sender.profile_image_url})`)
+            .app--avatar(style=`background-image: url(${account.profile_image_url})`)
               img(src='/static/images/f-spore.png')
             p.app--message--text #{msg.message_create.message_data.text}
             p.app--message--timestamp #{msg.created_timestamp}
         else
           li.app--message
-            .app--avatar(style=`background-image: url(${msg.sender.profile_image_url})`)
+            .app--avatar(style=`background-image: url(${chatBud.profile_image_url})`)
               img(src='/static/images/f-spore.png')
             p.app--message--text #{msg.message_create.message_data.text}
             p.app--message--timestamp #{msg.created_timestamp}
