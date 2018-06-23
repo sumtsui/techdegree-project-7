@@ -4,7 +4,8 @@
       h2 Timeline
   .grid-33
     .app--section--heading
-      strong #{account.friends_count}
+      if account && account.friends_count
+        strong #{account.friends_count}
       h2 Following
   .grid-33
     .app--section--heading

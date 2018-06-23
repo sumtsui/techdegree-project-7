@@ -8,13 +8,12 @@ html(lang='en')
         link(href='https://fonts.googleapis.com/css?family=Work+Sans:400,600' rel='stylesheet' type='text/css')
     body
         include header.pug
-        include tweet.pug
         .bounds.app--body
-          include body/subHeader.pug
-          .grid-33
-              .app--section
-          .grid-33
-              .app--section
-                h3 Something went wrong :/
-          .grid-33
-              .app--section
+          .error
+            include body/subHeader.pug
+          .error
+            h1 Something went wrong :/ 
+            h2 Please come back later
+            p 
+              b #{error.name}: 
+              | #{error.message}

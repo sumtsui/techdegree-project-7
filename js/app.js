@@ -1,6 +1,5 @@
 /* Todo
     - banner
-    - error page
     - timestamp
 */
 const express = require('express');
@@ -19,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/static', express.static('public'));
 app.use(router);
 
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
     console.log('Start loading!!!');
     Promise.all([
         T.get('account/verify_credentials', { skip_status: true, include_entities: false }),
@@ -41,23 +40,30 @@ router.get('/', (req, res) => {
     .then(result => {
         cache = result;
         console.log('ready to render!!');
-        res.render('layout', result);
+        res.render('index', result);
     })
     .catch(err => {
-        console.log('ENCOUNTER ERROR\n', err);
+        console.log('\nERROR SPOTTED >>>>', err, '\n');
+        next(err);
     });
 });
 
-app.use((req, res, next) => {
-    const err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+router.post('/', (req, res, next) => {
+    T.post('statuses/update', { status: req.body.tweet })
+        .then(result => {
+            cache.tweets.unshift(result.data);
+            cache.tweets.pop(5);
+        })
+        .then(() => res.render('index', cache))
+        .catch(err => {
+            console.log('\nERROR SPOTTED >>>>', err, '\n');
+            next(err);
+        });
 });
 
-// error handling middleware
+// error handling
 app.use((err, req, res, next) => {
     res.locals.error = err;
-    res.status(err.status);
     res.render('error');
 });
 
@@ -71,25 +77,14 @@ async function getChatBud(obj) {
                 return obj;
             }
         }
-    } catch (err) {
-        throw err;
-    } finally {
-        return obj;
-    }
+    } 
+    catch (err) { throw err; } 
+    finally { return obj; }
 }
 
 async function getProfile(msg) {
     return T.get('users/lookup', { user_id: msg.message_create.sender_id });
 }
-
-router.post('/', (req, res) => {
-    T.post('statuses/update', { status: req.body.tweet })
-        .then(result => {
-            cache.tweets.unshift(result.data);
-            cache.tweets.pop(5);
-        })
-        .then(() => res.render('layout', cache));
-});
 
 app.listen(3000, () => {
     console.log('Application running on localhost:3000');

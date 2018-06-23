@@ -1,3 +1,13 @@
+/* Error page */
+div.error div.app--section--header h2 {
+  color: lightgray;
+}
+
+div.error {
+  text-align: center;
+  padding-top: 4em;
+}
+
 /* line 8, ../sass/circle/core/_reset.sass */
 html {
   font-family: sans-serif;
