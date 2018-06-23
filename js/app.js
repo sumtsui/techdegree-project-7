@@ -1,11 +1,11 @@
 /* Todo
-    - banner
     - timestamp
 */
 const express = require('express');
 const bodyParser = require('body-parser');
 const Twit = require('twit');
 const config = require('./config');
+const timestamp = require('./timestamp');
 
 const app = express();
 const router = express.Router();
@@ -37,9 +37,12 @@ router.get('/', (req, res, next) => {
         };
     })
     .then(getChatBud)
+    .then(setTimeFormat)
     .then(result => {
         cache = result;
         console.log('ready to render!!');
+        console.log('Message>>>>', result.messages[0]);
+        console.log('Tweet>>>>', result.tweets[0]);
         res.render('index', result);
     })
     .catch(err => {
@@ -51,6 +54,7 @@ router.get('/', (req, res, next) => {
 router.post('/', (req, res, next) => {
     T.post('statuses/update', { status: req.body.tweet })
         .then(result => {
+            result.data.created_at = timestamp(result.data.created_at);
             cache.tweets.unshift(result.data);
             cache.tweets.pop(5);
         })
@@ -84,6 +88,17 @@ async function getChatBud(obj) {
 
 async function getProfile(msg) {
     return T.get('users/lookup', { user_id: msg.message_create.sender_id });
+}
+
+function setTimeFormat(obj) {
+    obj.tweets.forEach(item => {
+        item.created_at = timestamp(item.created_at);
+    });
+    obj.messages.forEach(item => {
+        const time = new Date(parseInt(item.created_timestamp));
+        item.created_timestamp = timestamp(time);
+    });
+    return obj;
 }
 
 app.listen(3000, () => {
