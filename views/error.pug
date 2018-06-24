@@ -13,7 +13,5 @@ html(lang='en')
             include body/subHeader.pug
           .error
             h1 Something went wrong :/ 
-            h2 Please come back later
-            p 
-              b #{error.name}: 
-              | #{error.message}
+            h2 #{error.info}
+            p= `${error.name} : ${error.message}`

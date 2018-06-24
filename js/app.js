@@ -39,7 +39,10 @@ router.get('/', (req, res, next) => {
         res.render('index', result);
     })
     // catch and emit error to Error handling middleware
-    .catch(next);
+    .catch(err => {
+        err.info = 'The server failed to load data.';
+        next(err);
+    });
 });
 
 router.post('/', (req, res, next) => {
@@ -51,6 +54,13 @@ router.post('/', (req, res, next) => {
         })
         .then(() => res.render('index', cache))
         .catch(next);
+});
+
+// when req doesn't match '/' or post routes
+app.use((req, res, next) => {
+    const err = new Error('Page Not Found');
+    err.info = 'The page you required does not exist';
+    next(err);
 });
 
 // error handling
