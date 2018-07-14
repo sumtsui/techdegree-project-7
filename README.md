@@ -1,7 +1,7 @@
 # A Twitter Interface
 To test the app:
   - Create a config.js in the js folder
-  - Copy the below snippet and fill in your twitter app infomation
+  - Copy the below snippet and fill in your twitter app information
       ```
       module.exports = {
         consumer_key: '',
