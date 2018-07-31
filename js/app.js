@@ -38,11 +38,7 @@ router.get('/', (req, res, next) => {
         cache = result;
         res.render('index', result);
     })
-    // catch and emit error to Error handling middleware
-    .catch(err => {
-        err.info = 'The server failed to load data.';
-        next(err);
-    });
+    .catch(next)
 });
 
 router.post('/', (req, res, next) => {
@@ -56,23 +52,25 @@ router.post('/', (req, res, next) => {
         .catch(next);
 });
 
-// when req doesn't match '/' or post routes
+// catch non-existing route
 app.use((req, res, next) => {
     const err = new Error('Page Not Found');
-    err.info = 'The page you required does not exist';
+    err.status = 404;
     next(err);
 });
 
-// error handling
+// handle error 
 app.use((err, req, res, next) => {
-    res.locals.error = err;
-    res.render('error');
+    console.log("***Error***\n", err.stack);
+    err.status = (err.status || 500);
+    err.message = "Server Error";
+    res.render('error', { error: err });
 });
 
 // loop thru msgs and break when find a msg with sender id different from auth account id. 
 async function getChatBud(obj) {
     try {
-        for (const msg of obj.messages) {
+        for (let msg of obj.messages) {
             if (msg.message_create.sender_id !== obj.account.id_str) {
                 const profile = await getProfile(msg);
                 obj.chatBud = profile.data[0];

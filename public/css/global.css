@@ -6,6 +6,8 @@ div.error div.app--section--header h2 {
 div.error {
   text-align: center;
   padding-top: 4em;
+  width: 70%;
+  margin: 0 auto;
 }
 
 /* line 8, ../sass/circle/core/_reset.sass */
