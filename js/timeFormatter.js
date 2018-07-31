@@ -1,4 +1,5 @@
 module.exports = function parseTwitterDate(tdate) {
+  // not my code:
   var system_date = new Date(tdate);
   var user_date = new Date();
   var diff = Math.floor((user_date - system_date) / 1000);
@@ -15,6 +16,7 @@ module.exports = function parseTwitterDate(tdate) {
   if (diff <= 777600) { return "1 week ago"; }
   return `${user_date.getDate()} ${monthArr()[user_date.getMonth() + 1]} ${user_date.getFullYear()}`;
 }
+// my failed code:
 // function getTimeStamp(date) {
 //   const months = monthArr();
 //   const nowMilSec = Date.now();
