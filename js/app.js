@@ -4,6 +4,7 @@ const Twit = require('twit');
 const config = require('./config');
 const timeFormatter = require('./timeFormatter');
 
+const port = process.env.PORT || 3000;
 const app = express();
 const router = express.Router();
 const T = new Twit(config);
@@ -33,28 +34,34 @@ router.get('/', (req, res, next) => {
 				chatBud: {}
 			};
 		})
-		.then(r => {
-			console.log('\n\n*********** DATA ***********\n\n', r);
-			return r;
-		})
+		// .then(r => {
+		// 	console.log('\n*********** DATA ***********\n\n', r);
+		// 	return r;
+		// })
 		.then(getChatBud)
 		.then(setTimeFormat)
 		.then(result => {
 			cache = result;
 			res.render('index', result);
 		})
-		.catch(next)
+		.catch(e => {
+			console.log('\n\nAfter Tweet Get:\n\n', e);
+			// next(e);
+		})
 });
 
 router.post('/', (req, res, next) => {
 	T.post('statuses/update', { status: req.body.tweet })
 		.then(result => {
-			result.data.created_at = timestamp(result.data.created_at);
+			result.data.created_at = timeFormatter(result.data.created_at);
 			cache.tweets.unshift(result.data);
 			cache.tweets.pop(5);
 		})
 		.then(() => res.render('index', cache))
-		.catch(next);
+		.catch(e => {
+			console.log('\n\nAfter Tweet Post:\n\n', e);
+			// next(e);
+		})
 });
 
 // catch 404
@@ -66,7 +73,7 @@ app.use((req, res, next) => {
 
 // handle error 
 app.use((err, req, res, next) => {
-	console.log("***Error***\n", err.stack);
+	console.log("\n\n*** Error ***\n", err.stack);
 	err.status = (err.status || 500);
 	if (err.message !== 'Page Not Found') err.message = "Server Error";
 	res.render('error', { err });
@@ -103,6 +110,6 @@ function setTimeFormat(obj) {
 	return obj;
 }
 
-app.listen(3000, () => {
-	console.log('Application running on localhost:3000');
+app.listen(port, () => {
+	console.log(`Application running on localhost:${port}`);
 });
