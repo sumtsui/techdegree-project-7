@@ -46,7 +46,7 @@ router.get('/', (req, res, next) => {
 		})
 		.catch(e => {
 			console.log('\n\nAfter Tweet Get:\n\n', e);
-			// next(e);
+			next(e);
 		})
 });
 
@@ -60,7 +60,7 @@ router.post('/', (req, res, next) => {
 		.then(() => res.render('index', cache))
 		.catch(e => {
 			console.log('\n\nAfter Tweet Post:\n\n', e);
-			// next(e);
+			next(e);
 		})
 });
 
