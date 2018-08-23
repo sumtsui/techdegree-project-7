@@ -9,7 +9,7 @@ const app = express();
 const router = express.Router();
 const T = new Twit(config);
 
-// to hold all content loaded from 'get' and pass to 'post', so that no need to reload everything after posting a new tweet. nasty nasty global variable. want to get rid of it someday:
+// to hold all content loaded from 'get' and pass to 'post', so that no need to reload everything after posting a new tweet. 
 let cache = {};
 
 app.set('view engine', 'pug');
@@ -44,10 +44,7 @@ router.get('/', (req, res, next) => {
 			cache = result;
 			res.render('index', result);
 		})
-		.catch(e => {
-			console.log('\n\nAfter Tweet Get:\n\n', e);
-			next(e);
-		})
+		.catch(next)
 });
 
 router.post('/', (req, res, next) => {
@@ -59,7 +56,6 @@ router.post('/', (req, res, next) => {
 		})
 		.then(() => res.render('index', cache))
 		.catch(e => {
-			console.log('\n\nAfter Tweet Post:\n\n', e);
 			next(e);
 		})
 });
